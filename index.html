@@ -41,9 +41,35 @@
                 </div>
             </div>
         </div>
-        <button class="game-options" type="button" id="new-game">Novo Jogo</button>
-        <button class="game-options" type="button" id="repeat-score">Repetir a Pontuação</button>
-        <button class="game-options" type="button" id="settings">Configurações</button>
+
+        <div class="game-buttons-section">
+            <button class="game-options" type="button" id="new-game">Novo Jogo</button>
+            <button class="game-options" type="button" id="repeat-score">Repetir a Pontuação</button>
+            <button class="game-options" type="button" id="settings-button">Configurações</button>
+        </div>
+    </div>
+    <div class="modal hidden" id="settings-modal">
+        <div class="modal-content">
+            <h2>Configurações da Partida</h2><br>
+
+            <label for="team-a-name" class="team-a-name">Time A:</label>
+            <input id="team-a-name" type="text"><br><br>
+
+            <label for="team-b-name" class="team-b-name">Time B:</label>
+            <input id="team-b-name" type="text"><br><br>
+
+            <label for="points-to-win">Pontos para vencer (escolha entre 10 a 25):</label>
+            <input id="points-to-win" type="number" min="10" max="25" value="10"><br><br>
+            
+            <label for="win-by-two">Adicionar regra "vai a 2":</label>
+            <input type="checkbox" id="win-by-two" checked><br><br>
+
+            <label for="sets-to-win">Sets para vencer (escolha entre 1 e 3):</label>
+            <input type="number" min="1" max="3" value="3" id="sets-to-win"><br><br>
+
+            <button id="save-settings">Salvar Configurações</button>
+            <button id="close-modal">Fechar</button>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>

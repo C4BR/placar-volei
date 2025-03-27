@@ -1,14 +1,51 @@
 let scores = { scoreA: 0, scoreB: 0 }
 let winner = null
 let sets = { setsA: 0, setsB: 0 }
-let actualSet = null
 
+const gameStatus = {
+    scores : {
+        scoreA: 0,
+        scoreB: 0
+    },
+    winner: null,
+    sets: {
+        setsA: 0,
+        setsB: 0
+    }
+}
 
+const gameSettings = {
+    teamAName: "Time A",
+    teamBName: "Time B",
+    winScore: 10,
+    winByTwoRule: true,
+    setsToWin: 3
+}
+
+const settingsButton = document.getElementById("settings-button")
+const settingsModal = document.getElementById("settings-modal")
+const closeModalButton = document.getElementById("close-modal")
+const saveSettingsButton = document.getElementById("save-settings")
+
+saveSettingsButton.addEventListener("click", () => {
+    gameSettings.teamAName = document.getElementById("team-a-name").value || "Time A"
+    gameSettings.teamBName = document.getElementById("team-b-name").value || "Time B"
+    gameSettings.winScore = parseInt(document.getElementById("points-to-win").value, 10) || 10
+    gameSettings.winByTwoRule = document.getElementById("win-by-two").checked
+    gameSettings.setsToWin = parseInt(document.getElementById("sets-to-win").value, 10) || 3
+    
+    document.getElementById("team-a").innerHTML = gameSettings["teamAName"]
+    document.getElementById("team-b").innerHTML = gameSettings["teamBName"]
+
+    console.log(gameSettings.winScore)
+    console.log(gameSettings.winByTwoRule)
+})
 
 const aPlusKey = "D"
 const aMinusKey = "A"
 const bPlusKey = "L"
 const bMinusKey = "J"
+
 
 const repeatKey = "R"
 const newGameKey = "N"
@@ -58,13 +95,16 @@ function narratePoint(scoreA, scoreB){
 
 function checkWinner(scores){
     const teams = Object.keys(scores)
-    if(scores["scoreA"] >= 14 && scores["scoreB"] >= 14){
-        winByTwo()
-        return
+    if(gameSettings.winByTwoRule == true){
+        if(scores["scoreA"] >= gameSettings.winScore -1 && scores["scoreB"] >= gameSettings.winScore -1){
+            winByTwo()
+            return
+        }
     }
+    
     for(let i = 0; i < teams.length; i++){
         const team = teams[i]
-        if(scores[team] >= 15){
+        if(scores[team] >= gameSettings.winScore){
             if (!winner){
                 winner = team
                 console.log(winner)
@@ -106,7 +146,7 @@ function insertSet(setsId){
     sets[setsId] += 1
     console.log(actualSet)
     if(winner == ["scoreA"]){
-        document.getElementById(`set-${actualSet}`).innerHTML = "A"
+        document.getElementById(`set-${actualSet}`).innerHTML = gameSettings["teamAName"]
         document.getElementById(`history-${actualSet}`).innerHTML = `${scores["scoreA"]} a ${scores["scoreB"]}`
         document.getElementById("scoreA").innerHTML = 0
         document.getElementById("scoreB").innerHTML = 0
@@ -115,7 +155,7 @@ function insertSet(setsId){
         winner = null
         return
     }
-    document.getElementById(`set-${actualSet}`).innerHTML = "B"
+    document.getElementById(`set-${actualSet}`).innerHTML = gameSettings["teamBName"]
     document.getElementById(`history-${actualSet}`).innerHTML = `${scores["scoreB"]} a ${scores["scoreA"]}`
     document.getElementById("scoreA").innerHTML = 0
     document.getElementById("scoreB").innerHTML = 0
@@ -133,6 +173,15 @@ function winByTwo(){
     }
 }
 
+settingsButton.addEventListener("click", () =>{
+    settingsModal.classList.remove("hidden")
+})
+
+closeModalButton.addEventListener("click", () => {
+    settingsModal.classList.add("hidden")
+})
+
+
 newGameButton.addEventListener("click", newGame)
 document.addEventListener("keydown", (event) => {
     if(event.key.toUpperCase() == newGameKey){
@@ -147,6 +196,10 @@ document.addEventListener("keydown", (event) => {
     if(event.key.toUpperCase() == repeatKey){
         narratePoint(scores["scoreA"], scores["scoreB"])
     }
+})
+
+saveSettingsButton.addEventListener("click", () =>{
+
 })
 
 addScore("a-plus-button", "scoreA", 1, aPlusKey),
