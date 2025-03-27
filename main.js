@@ -24,6 +24,17 @@ const settingsModal = document.getElementById("settings-modal")
 const closeModalButton = document.getElementById("close-modal")
 const saveSettingsButton = document.getElementById("save-settings")
 
+const aPlusKey = "D"
+const aMinusKey = "A"
+const bPlusKey = "L"
+const bMinusKey = "J"
+
+const repeatKey = "R"
+const newGameKey = "N"
+
+const repeatButton = document.getElementById("repeat-score")
+const newGameButton = document.getElementById("new-game")
+
 saveSettingsButton.addEventListener("click", () => {
     gameSettings.teamAName = document.getElementById("team-a-name").value || "Time A"
     gameSettings.teamBName = document.getElementById("team-b-name").value || "Time B"
@@ -37,17 +48,6 @@ saveSettingsButton.addEventListener("click", () => {
     console.log(gameSettings.winScore)
     console.log(gameSettings.winByTwoRule)
 })
-
-const aPlusKey = "D"
-const aMinusKey = "A"
-const bPlusKey = "L"
-const bMinusKey = "J"
-
-const repeatKey = "R"
-const newGameKey = "N"
-
-const repeatButton = document.getElementById("repeat-score")
-const newGameButton = document.getElementById("new-game")
 
 function insertScore (scoreId, score){
     gameStatus.scores[scoreId] += score
@@ -191,10 +191,6 @@ document.addEventListener("keydown", (event) => {
     if(event.key.toUpperCase() == repeatKey){
         narratePoint(gameStatus.scores["scoreA"], gameStatus.scores["scoreB"])
     }
-})
-
-saveSettingsButton.addEventListener("click", () =>{
-
 })
 
 addScore("a-plus-button", "scoreA", 1, aPlusKey),
