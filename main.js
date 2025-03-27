@@ -1,17 +1,14 @@
-let scores = { scoreA: 0, scoreB: 0 }
-let winner = null
-let sets = { setsA: 0, setsB: 0 }
-
 const gameStatus = {
     scores : {
         scoreA: 0,
         scoreB: 0
     },
-    winner: null,
     sets: {
         setsA: 0,
         setsB: 0
-    }
+    },
+    winner: null,
+    actualSet: null   
 }
 
 const gameSettings = {
@@ -46,7 +43,6 @@ const aMinusKey = "A"
 const bPlusKey = "L"
 const bMinusKey = "J"
 
-
 const repeatKey = "R"
 const newGameKey = "N"
 
@@ -54,28 +50,28 @@ const repeatButton = document.getElementById("repeat-score")
 const newGameButton = document.getElementById("new-game")
 
 function insertScore (scoreId, score){
-    scores[scoreId] += score
-    document.getElementById(scoreId).innerHTML = scores[scoreId]
+    gameStatus.scores[scoreId] += score
+    document.getElementById(scoreId).innerHTML = gameStatus.scores[scoreId]
 }
 
 function addScore (buttonId, scoreId, increment, key){
     const button = document.getElementById(buttonId)
     button.addEventListener("click", () =>{
-        if(scores[scoreId] + increment <0){
+        if(gameStatus.scores[scoreId] + increment <0){
             return
         }
         insertScore (scoreId, increment)
-        narratePoint(scores["scoreA"], scores["scoreB"])
-        checkWinner(scores)
+        narratePoint(gameStatus.scores["scoreA"], gameStatus.scores["scoreB"])
+        checkWinner(gameStatus.scores)
     })
     document.addEventListener("keydown", (event) =>{
         if(event.key.toUpperCase() === key.toUpperCase()){
-            if(scores[scoreId] + increment <0){
+            if(gameStatus.scores[scoreId] + increment <0){
                 return
             }
             insertScore (scoreId, increment)
-            narratePoint(scores["scoreA"], scores["scoreB"])
-            checkWinner(scores)
+            narratePoint(gameStatus.scores["scoreA"], gameStatus.scores["scoreB"])
+            checkWinner(gameStatus.scores)
         }
     })
 }
@@ -94,9 +90,9 @@ function narratePoint(scoreA, scoreB){
 }
 
 function checkWinner(scores){
-    const teams = Object.keys(scores)
+    const teams = Object.keys(gameStatus.scores)
     if(gameSettings.winByTwoRule == true){
-        if(scores["scoreA"] >= gameSettings.winScore -1 && scores["scoreB"] >= gameSettings.winScore -1){
+        if(gameStatus.scores["scoreA"] >= gameSettings.winScore -1 && gameStatus.scores["scoreB"] >= gameSettings.winScore -1){
             winByTwo()
             return
         }
@@ -105,16 +101,16 @@ function checkWinner(scores){
     for(let i = 0; i < teams.length; i++){
         const team = teams[i]
         if(scores[team] >= gameSettings.winScore){
-            if (!winner){
-                winner = team
-                console.log(winner)
+            if (!gameStatus.winner){
+                gameStatus.winner = team
+                console.log(gameStatus.winner)
                 const winnerAudio = new Audio (`audio/dois-sets-a-um-${team}.mp3`)
                 winnerAudio.play()
-                if(winner == teams[0]){
-                    insertSet(sets["setsA"])                    
+                if(gameSettings.winner == teams[0]){
+                    insertSet(gameStatus.sets["setsA"])                    
                     return
                 }
-                insertSet(sets["setsB"])
+                insertSet(gameStatus.sets["setsB"])
             }
             break
         }        
@@ -122,14 +118,14 @@ function checkWinner(scores){
 }
 
 function newGame(){
-    scores["scoreA"] = 0
-    scores["scoreB"] = 0
+    gameStatus.scores["scoreA"] = 0
+    gameStatus.scores["scoreB"] = 0
     
-    sets["setsA"] = 0
-    sets["setsB"] = 0
+    gameStatus.sets["setsA"] = 0
+    gameStatus.sets["setsB"] = 0
     
-    actualSet = null
-    winner = null
+    gameStatus.actualSet = null
+    gameStatus.winner = null
     
     document.getElementById("scoreA").innerHTML = 0
     document.getElementById("scoreB").innerHTML = 0
@@ -142,33 +138,33 @@ function newGame(){
 }
 
 function insertSet(setsId){
-    actualSet += 1
-    sets[setsId] += 1
-    console.log(actualSet)
-    if(winner == ["scoreA"]){
-        document.getElementById(`set-${actualSet}`).innerHTML = gameSettings["teamAName"]
-        document.getElementById(`history-${actualSet}`).innerHTML = `${scores["scoreA"]} a ${scores["scoreB"]}`
+    gameStatus.actualSet += 1
+    gameStatus.sets[setsId] += 1
+    console.log(gameStatus.actualSet)
+    if(gameStatus.winner == ["scoreA"]){
+        document.getElementById(`set-${gameStatus.actualSet}`).innerHTML = gameSettings["teamAName"]
+        document.getElementById(`history-${gameStatus.actualSet}`).innerHTML = `${gameStatus.scores["scoreA"]} a ${gameStatus.scores["scoreB"]}`
         document.getElementById("scoreA").innerHTML = 0
         document.getElementById("scoreB").innerHTML = 0
-        scores["scoreA"] = 0
-        scores["scoreB"] = 0
-        winner = null
+        gameStatus.scores["scoreA"] = 0
+        gameStatus.scores["scoreB"] = 0
+        gameStatus.winner = null
         return
     }
-    document.getElementById(`set-${actualSet}`).innerHTML = gameSettings["teamBName"]
-    document.getElementById(`history-${actualSet}`).innerHTML = `${scores["scoreB"]} a ${scores["scoreA"]}`
+    document.getElementById(`set-${gameStatus.actualSet}`).innerHTML = gameSettings["teamBName"]
+    document.getElementById(`history-${gameStatus.actualSet}`).innerHTML = `${gameStatus.scores["scoreB"]} a ${gameStatus.scores["scoreA"]}`
     document.getElementById("scoreA").innerHTML = 0
     document.getElementById("scoreB").innerHTML = 0
-    scores["scoreA"] = 0
-    scores["scoreB"] = 0
-    winner = null
+    gameStatus.scores["scoreA"] = 0
+    gameStatus.scores["scoreB"] = 0
+    gameStatus.winner = null
 }
 
 function winByTwo(){
-    const pointDifference = Math.abs(scores["scoreA"] - scores["scoreB"])
+    const pointDifference = Math.abs(gameStatus.scores["scoreA"] - gameStatus.scores["scoreB"])
     if(pointDifference == 2){
-        winner = scores["scoreA"] > scores["scoreB"] ? "scoreA" : "scoreB"
-        insertSet(sets[winner])
+        gameStatus.winner = gameStatus.scores["scoreA"] > gameStatus.scores["scoreB"] ? "scoreA" : "scoreB"
+        insertSet(gameStatus.sets[gameStatus.winner])
         return
     }
 }
@@ -181,7 +177,6 @@ closeModalButton.addEventListener("click", () => {
     settingsModal.classList.add("hidden")
 })
 
-
 newGameButton.addEventListener("click", newGame)
 document.addEventListener("keydown", (event) => {
     if(event.key.toUpperCase() == newGameKey){
@@ -190,11 +185,11 @@ document.addEventListener("keydown", (event) => {
 })
 
 repeatButton.addEventListener("click", () =>{
-    narratePoint(scores["scoreA"], scores["scoreB"])
+    narratePoint(gameStatus.scores["scoreA"], gameStatus.scores["scoreB"])
 })
 document.addEventListener("keydown", (event) => {
     if(event.key.toUpperCase() == repeatKey){
-        narratePoint(scores["scoreA"], scores["scoreB"])
+        narratePoint(gameStatus.scores["scoreA"], gameStatus.scores["scoreB"])
     }
 })
 
@@ -206,12 +201,3 @@ addScore("a-plus-button", "scoreA", 1, aPlusKey),
 addScore("a-minus-button", "scoreA", -1, aMinusKey),
 addScore("b-plus-button", "scoreB", 1, bPlusKey),
 addScore("b-minus-button", "scoreB", -1, bMinusKey)
-
-
-
-
-
-
-
-
-
