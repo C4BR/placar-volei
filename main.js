@@ -36,16 +36,31 @@ const newGameKey = "N"
 const repeatButton = document.getElementById("repeat-score")
 const newGameButton = document.getElementById("new-game")
 
+function finishGame(){
+    if(gameStatus.gameWinner){ 
+        const winner = document.createElement("h1")
+        const winnerSection = document.querySelector(".winner-section")
+
+        winner.textContent = `${gameStatus.gameWinner} é o vencedor!`
+        winner.classList.add("winner")
+
+        winnerSection.appendChild(winner)
+    }
+}
+
+
 function checkGameWinner(){   
     console.log(gameStatus.sets["setsA"] + " A")
     console.log(gameStatus.sets["setsB"] + " B")
     if(gameStatus.sets.setsA >= gameSettings.setsToWin){
         gameStatus.gameWinner = "Time A"
         console.log(gameStatus.gameWinner + " ganhou o Jogo")
+        finishGame()
     }
     else if(gameStatus.sets.setsB >= gameSettings.setsToWin){
         gameStatus.gameWinner = "Time B"
         console.log(gameStatus.gameWinner + " ganhou o Jogo")
+        finishGame()
     }
 }
 
@@ -147,6 +162,12 @@ function newGame(){
 
     document.getElementById("scoreA").innerHTML = 0
     document.getElementById("scoreB").innerHTML = 0
+
+    const winnerSection = document.querySelector(".winner-section")
+    const winnerElement = winnerSection.querySelector(".winner")
+    if(winnerElement){
+        winnerSection.removeChild(winnerElement)
+    }
 
     resetHtmlHistory("set-1", "history-1")
     resetHtmlHistory("set-2", "history-2")
