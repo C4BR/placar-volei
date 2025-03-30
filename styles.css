@@ -6,7 +6,7 @@
 
 body{
     display: flex;
-    background-color: aqua;
+    background-color: rgb(255, 255, 255);
     align-items: center;
     justify-content: center;
     size: 100vh;
@@ -15,14 +15,14 @@ body{
 }
 
 .scoreboard{
-    background-color: rgb(22, 112, 139);
+    background-color: rgb(255, 255, 255);
     height: 50rem;
     width: 50rem;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    color: orange;
+    color: rgb(0, 0, 0);
     font-weight: 600;
 }
 
@@ -44,8 +44,28 @@ body{
     align-items: center;
 }
 
-.score{
-    background-color: aliceblue;
+.team-a{
+    color: rgb(0, 0, 0);
+}
+
+.team-b{
+    color: rgb(0, 0, 0);
+}
+
+.score-a{
+    background-color: rgb(46, 123, 230);
+    display: flex;
+    height: 40%;
+    width: 60%;
+    border-radius: 8%;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 6rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.score-b{
+    background-color: rgb(255, 149, 0);
     display: flex;
     height: 40%;
     width: 60%;
@@ -66,6 +86,7 @@ body{
 }
 
 .minus-button{
+    color: red;
     height: 3rem;
     width: 3rem;
     border-radius:50%;
@@ -74,13 +95,24 @@ body{
     border: 0;
 }
 
+.minus-button:hover{
+    color: white;
+    background-color: red;
+}
+
 .plus-button{
+    color: green;
     height: 3rem;
     width: 3rem;
     border-radius: 50%;
     font-size: 2rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     border: 0;
+}
+
+.plus-button:hover{
+    color: white;
+    background-color: green;
 }
 
 .game-buttons-section {
@@ -105,7 +137,7 @@ body{
 }
 
 .sets-section{
-    width: 60%;
+    width: 70%;
     height: 15%;
     display: flex;
     flex-flow: row wrap;
@@ -145,9 +177,9 @@ body{
 }
 
 .team-a-name{
-    color: rgb(2, 42, 239);
+    color: rgb(46, 123, 230)
 }
 
 .team-b-name{
-    color: red
+    color: rgb(255, 149, 0)
 }
