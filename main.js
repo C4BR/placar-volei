@@ -37,7 +37,7 @@ const repeatButton = document.getElementById("repeat-score")
 const newGameButton = document.getElementById("new-game")
 
 function finishGame(){
-    if(gameStatus.gameWinner){ 
+    if(gameStatus.gameWinner){  
         const winner = document.createElement("h1")
         const winnerSection = document.querySelector(".winner-section")
 
@@ -48,17 +48,16 @@ function finishGame(){
     }
 }
 
-
 function checkGameWinner(){   
     console.log(gameStatus.sets["setsA"] + " A")
     console.log(gameStatus.sets["setsB"] + " B")
     if(gameStatus.sets.setsA >= gameSettings.setsToWin){
-        gameStatus.gameWinner = "Time A"
+        gameStatus.gameWinner = gameSettings.teamAName
         console.log(gameStatus.gameWinner + " ganhou o Jogo")
         finishGame()
     }
     else if(gameStatus.sets.setsB >= gameSettings.setsToWin){
-        gameStatus.gameWinner = "Time B"
+        gameStatus.gameWinner = gameSettings.teamBName
         console.log(gameStatus.gameWinner + " ganhou o Jogo")
         finishGame()
     }
@@ -86,6 +85,9 @@ function insertScore (scoreId, score){
 function addScore (buttonId, scoreId, increment, key){
     const button = document.getElementById(buttonId)
     button.addEventListener("click", () =>{
+        if(gameStatus.gameWinner){
+            return
+        }
         if(gameStatus.scores[scoreId] + increment <0){
             return
         }
@@ -95,6 +97,9 @@ function addScore (buttonId, scoreId, increment, key){
     })
     document.addEventListener("keydown", (event) =>{
         if(event.key.toUpperCase() === key.toUpperCase()){
+            if(gameStatus.gameWinner){
+                return
+            }
             if(gameStatus.scores[scoreId] + increment <0){
                 return
             }
@@ -159,6 +164,7 @@ function newGame(){
     
     gameStatus.actualSet = null
     gameStatus.winner = null
+    gameStatus.gameWinner = null
 
     document.getElementById("scoreA").innerHTML = 0
     document.getElementById("scoreB").innerHTML = 0
@@ -177,6 +183,8 @@ function newGame(){
 }
 
 function resetHtmlHistory(set, history){
+    //TODO refatorar o reset html
+
     document.getElementById(set).innerHTML = ""
     document.getElementById(history).innerHTML = ""
 }
@@ -188,6 +196,8 @@ function insertSet(setsId){
     console.log(gameStatus.actualSet + "º set atual")
    
     if(gameStatus.winner == "setsA"){
+
+        //TODO refatorar o inserthtml, usar queryselector para deixar o codigo mais limpo e menos repetitivo
         document.getElementById(`set-${gameStatus.actualSet}`).innerHTML = gameSettings["teamAName"]
         document.getElementById(`history-${gameStatus.actualSet}`).innerHTML = `${gameStatus.scores["scoreA"]} a ${gameStatus.scores["scoreB"]}`
     }

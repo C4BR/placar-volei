@@ -55,8 +55,8 @@ body{
 .score-a{
     background-color: rgb(46, 123, 230);
     display: flex;
-    height: 40%;
-    width: 60%;
+    height: 190px;
+    width: 190px;
     border-radius: 8%;
     justify-content: space-evenly;
     align-items: center;
@@ -67,8 +67,8 @@ body{
 .score-b{
     background-color: rgb(255, 149, 0);
     display: flex;
-    height: 40%;
-    width: 60%;
+    height: 190px;
+    width: 190px;
     border-radius: 8%;
     justify-content: space-evenly;
     align-items: center;
@@ -139,6 +139,7 @@ body{
 .sets-section{
     width: 70%;
     height: 10%;
+    margin: 10px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
@@ -187,7 +188,8 @@ body{
 .winner-section{
     display: flex;
     width: 50%;
-    height: 10%;
+    height: 15%;
+    margin: 10px;
     align-items: center;
     text-align: center;
     justify-content: center;
