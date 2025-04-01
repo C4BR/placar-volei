@@ -197,7 +197,7 @@ function insertSet(setsId){
    
     if(gameStatus.winner == "setsA"){
 
-        //TODO refatorar o inserthtml, usar queryselector para deixar o codigo mais limpo e menos repetitivo
+        //TODO refatorar o inserthtml, usar queryselector para deixar o codigo mais limpo e menos repetitiva
         document.getElementById(`set-${gameStatus.actualSet}`).innerHTML = gameSettings["teamAName"]
         document.getElementById(`history-${gameStatus.actualSet}`).innerHTML = `${gameStatus.scores["scoreA"]} a ${gameStatus.scores["scoreB"]}`
     }
